@@ -48,14 +48,9 @@ USER FINANCIAL SUMMARY:
 Answer the user's question using this data. Give specific numbers and actionable advice.
     `;
 
-        // TODO: Replace with real API when quota resets
-        const mockReplies = [
-            `Based on your finances, your total expenses are ₹${totalExpenses} and total debt is ₹${totalDebt}. I'd recommend focusing on high-interest debt first.`,
-            `Your spending breakdown shows: ${JSON.stringify(categoryBreakdown)}. Consider reducing your top spending category.`,
-            `To reach your savings goals faster, try allocating at least 20% of your income (₹${Math.round((user.monthlyIncome || totalIncome) * 0.2)}) to savings each month.`
-        ];
-        const reply = mockReplies[Math.floor(Math.random() * mockReplies.length)];
-        res.json({ reply });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const result = await model.generateContent(financialContext + "\n\nUser: " + message);
+        res.json({ reply: result.response.text() });
 
     } catch (err) {
         res.status(500).json({ message: err.message });
