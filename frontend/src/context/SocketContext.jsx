@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user) return;
-    const s = io("http://localhost:5000", { withCredentials: true });
+    const s = io("https://wealthos-backend-psa5.onrender.com", { withCredentials: true });
     setSocket(s);
 
     // Listen for budget alerts specific to this user
