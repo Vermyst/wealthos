@@ -52,7 +52,11 @@ const optimizeDebts = async (req, res) => {
     }));
 
     const input = JSON.stringify({ monthlyBudget, debts: simplifiedDebts });
-    const binaryPath = path.join(__dirname, "../utils/debt_optimizer.exe");
+    const binaryPath = path.join(
+      __dirname,
+      "../utils",
+      process.env.NODE_ENV === "production" ? "debt_optimizer_linux" : "debt_optimizer.exe"
+    );
 
     let output = "";
     let errorOutput = "";

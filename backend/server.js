@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const http = require("http");
+const path = require("path");
 const { Server } = require("socket.io");
 require("dotenv").config();
 
@@ -14,6 +15,15 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+
+const { execSync } = require("child_process");
+if (process.env.NODE_ENV === "production") {
+  try {
+    execSync("chmod +x " + path.join(__dirname, "utils/debt_optimizer_linux"));
+  } catch (e) {
+    console.log("chmod failed:", e.message);
+  }
+}
 
 const io = new Server(server, {
   cors: corsOptions
