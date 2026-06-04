@@ -4,6 +4,7 @@ import axios from "../utils/axios";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import StatCard from "../components/StatCard";
 import Card from "../components/Card";
+import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
   const [analysis, setAnalysis] = useState(null);
@@ -13,6 +14,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [income, setIncome] = useState("");
   const [incomeSaved, setIncomeSaved] = useState(false);
+  const { user } = useAuth();
   const [projection, setProjection] = useState([]);
   const [projConfig, setProjConfig] = useState({ months: 12, savingsRate: 20, returnRate: 8 });
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ export default function Dashboard() {
         console.error(err);
       } finally {
         setLoading(false);
+        if (user?.monthlyIncome) setIncome(String(user.monthlyIncome));
       }
     };
     fetchAll();
@@ -113,9 +116,13 @@ export default function Dashboard() {
           className="flex-1 bg-transparent text-sm outline-none border-b focus:border-green-600 transition-colors"
           style={{ borderColor: "#E5E7EB", color: "#111827", maxWidth: 160 }} />
         <button onClick={async () => {
-          await axios.put("/auth/update", { monthlyIncome: Number(income) });
-          setIncomeSaved(true);
-          setTimeout(() => setIncomeSaved(false), 2000);
+          try {
+            await axios.put("/auth/update", { monthlyIncome: Number(income) });
+            setIncomeSaved(true);
+            setTimeout(() => setIncomeSaved(false), 2000);
+          } catch (err) {
+            console.error("Failed to save income:", err);
+          }
         }} className="text-xs px-3 py-1.5 rounded-lg text-white font-medium"
           style={{ background: "var(--green-700)" }}>
           Save
