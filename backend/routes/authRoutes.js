@@ -8,10 +8,10 @@ router.post("/login", login);
 router.post("/logout", logout);
 router.post("/refresh", refresh);
 router.get("/me", protect, getMe);
-
 router.put("/update", protect, async (req, res) => {
   try {
-    const user = await require("../models/User").findByIdAndUpdate(
+    const User = require("../models/User");
+    const user = await User.findByIdAndUpdate(
       req.user._id,
       { $set: { monthlyIncome: req.body.monthlyIncome } },
       { new: true }
