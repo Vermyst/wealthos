@@ -8,13 +8,19 @@ require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
 const io = new Server(server, {
-  cors: { origin: process.env.CLIENT_URL, credentials: true }
+  cors: corsOptions
 });
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 

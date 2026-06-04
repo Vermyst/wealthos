@@ -3,10 +3,11 @@ const bcrypt = require("bcryptjs");
 const { generateAccessToken, generateRefreshToken } = require("../utils/generateToken");
 const jwt = require("jsonwebtoken");
 
+const isProduction = process.env.NODE_ENV === "production";
 const cookieOptions = {
   httpOnly: true,
-  secure: true, 
-  sameSite: "lax",
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
 };
 
 // REGISTER
