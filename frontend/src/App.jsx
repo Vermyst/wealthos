@@ -9,6 +9,8 @@ import Goals from "./pages/Goals";
 import Chat from "./pages/Chat";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -20,6 +22,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/terms" element={<Terms />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

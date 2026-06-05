@@ -40,7 +40,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-2 pb-4 mb-3"
         style={{ borderBottom: "0.5px solid var(--sidebar-border)" }}>
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+        <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
           style={{ background: "var(--green-600)" }}>
           <i className="ti ti-trending-up text-white" style={{ fontSize: 14 }} />
         </div>
@@ -84,7 +84,7 @@ export default function Sidebar() {
       {/* User */}
       <div className="pt-3" style={{ borderTop: "0.5px solid var(--sidebar-border)" }}>
         <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg">
-          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium text-white flex-shrink-0"
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium text-white shrink-0"
             style={{ background: "linear-gradient(135deg, var(--green-600), var(--green-700))" }}>
             {user?.name?.[0]?.toUpperCase()}
           </div>
