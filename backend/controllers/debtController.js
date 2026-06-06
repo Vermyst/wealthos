@@ -43,7 +43,6 @@ const optimizeDebts = async (req, res) => {
     const debts = await Debt.find({ userId: req.user._id });
     if (debts.length === 0) return res.status(400).json({ message: "No debts found" });
 
-    // Simplify debt objects — only send what C++ needs
     const simplifiedDebts = debts.map(d => ({
       name: d.name,
       remainingAmount: d.remainingAmount,
@@ -58,20 +57,32 @@ const optimizeDebts = async (req, res) => {
       process.env.NODE_ENV === "production" ? "debt_optimizer_linux" : "debt_optimizer.exe"
     );
 
+    // Make binary executable (required on Render)
+    if (process.env.NODE_ENV === "production") {
+      try {
+        require("child_process").execSync(`chmod +x "${binaryPath}"`);
+      } catch (e) {
+        console.error("chmod error:", e.message);
+      }
+    }
+
     let output = "";
     let errorOutput = "";
 
-    const child = execFile(binaryPath, [], { timeout: 10000 });
+    const child = execFile(binaryPath, [], { timeout: 15000 });
 
     child.stdout.on("data", (data) => { output += data; });
     child.stderr.on("data", (data) => { errorOutput += data; });
 
     child.on("close", (code) => {
+      console.log("Optimizer exit code:", code);
+      console.log("Optimizer output:", output);
+      console.log("Optimizer error:", errorOutput);
       if (code !== 0) return res.status(500).json({ message: "Optimizer failed", error: errorOutput });
       try {
         res.json(JSON.parse(output));
       } catch (e) {
-        res.status(500).json({ message: "Parse error", raw: output, error: e.message });
+        res.status(500).json({ message: "Parse error", raw: output });
       }
     });
 
