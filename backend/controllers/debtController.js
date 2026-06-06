@@ -75,9 +75,6 @@ const optimizeDebts = async (req, res) => {
     child.stderr.on("data", (data) => { errorOutput += data; });
 
     child.on("close", (code) => {
-      console.log("Optimizer exit code:", code);
-      console.log("Optimizer output:", output);
-      console.log("Optimizer error:", errorOutput);
       if (code !== 0) return res.status(500).json({ message: "Optimizer failed", error: errorOutput });
       try {
         res.json(JSON.parse(output));
