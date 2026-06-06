@@ -157,7 +157,7 @@ export default function Debts() {
               return (
                 <div key={d._id} className="py-3 group">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: risk.dot }} />
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ background: risk.dot }} />
                     <p className="text-xs font-medium flex-1" style={{ color: "#111827" }}>{d.name}</p>
                     <span className="text-xs px-2 py-0.5 rounded-full"
                       style={{ background: risk.bg, color: risk.color, fontSize: 9.5 }}>{risk.label}</span>

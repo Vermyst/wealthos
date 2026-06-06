@@ -79,6 +79,7 @@ const optimizeDebts = async (req, res) => {
     child.stdin.end();
 
   } catch (err) {
+    console.error("Optimizer error:", err.message, err.stack);
     res.status(500).json({ message: err.message });
   }
 };
