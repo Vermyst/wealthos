@@ -8,23 +8,25 @@ int simulate(vector<double> balances, vector<double> rates, vector<double> payme
     for (int month = 1; month <= 600; month++) {
         bool allDone = true;
         for (int i = 0; i < n; i++) {
-            if (balances[i] > 0.01) { allDone = false; break; }
+            if (balances[i] > 0.01) {
+                allDone = false;
+                break;
+            }
         }
         if (allDone) return month - 1;
         for (int i = 0; i < n; i++) {
             if (balances[i] <= 0.01) continue;
             double monthlyRate = rates[i] / 100.0 / 12.0;
-            balances[i] += balances[i] * monthlyRate;
-            balances[i] -= payments[i];
+            balances[i] = balances[i] * (1 + monthlyRate) - payments[i];
             if (balances[i] < 0) balances[i] = 0;
         }
-        allDone = true;
-        for (int i = 0; i < n; i++) {
-            if (balances[i] > 0.01) { allDone = false; break; }
-        }
-        if (allDone) return month;
     }
-    return -1;
+    // Check one final time after last month
+    bool allDone = true;
+    for (int i = 0; i < n; i++) {
+        if (balances[i] > 0.01) { allDone = false; break; }
+    }
+    return allDone ? 600 : -1;
 }
 
 int main() {
