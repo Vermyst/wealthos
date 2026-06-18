@@ -279,8 +279,8 @@ export default function Debts() {
                     <i className={`ti ${icon}`} style={{ fontSize: 14, color }} />
                     <p className="text-xs font-medium" style={{ color: "#111827" }}>{label}</p>
                     <span className="text-xs px-2 py-0.5 rounded-full font-medium ml-auto"
-                      style={{ background: s.badgeBg, color: s.badgeColor, fontSize: 9.5 }}>
-                      {s.badge}
+                      style={{ background: badgeBg, color: badgeColor, fontSize: 9.5 }}>
+                      {badge}
                     </span>
                   </div>
                   <p className="text-xs mb-3" style={{ color: "#6B7280" }}>{desc}</p>
