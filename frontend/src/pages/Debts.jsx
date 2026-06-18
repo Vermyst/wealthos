@@ -60,9 +60,39 @@ export default function Debts() {
   ] : [];
 
   const strategies = result ? [
-    { key: "avalanche", label: "Avalanche", desc: "Highest interest first", color: "#378ADD", lightBg: "#EBF4FF", icon: "ti-arrow-up" },
-    { key: "snowball", label: "Snowball", desc: "Lowest balance first", color: "#7F77DD", lightBg: "#EEEDFE", icon: "ti-snowflake" },
-    { key: "optimized", label: "DP Optimized", desc: "Max interest saved (C++ knapsack)", color: "#1D9E75", lightBg: "#E1F5EE", icon: "ti-cpu" },
+    {
+      key: "avalanche",
+      label: "Avalanche",
+      desc: "Highest interest first — mathematically optimal",
+      color: "#378ADD",
+      lightBg: "#EBF4FF",
+      icon: "ti-arrow-up",
+      badge: "Recommended",
+      badgeBg: "#E1F5EE",
+      badgeColor: "#0F6E56"
+    },
+    {
+      key: "snowball",
+      label: "Snowball",
+      desc: "Lowest balance first — psychologically motivating",
+      color: "#7F77DD",
+      lightBg: "#EEEDFE",
+      icon: "ti-snowflake",
+      badge: "Stay motivated",
+      badgeBg: "#EEEDFE",
+      badgeColor: "#534AB7"
+    },
+    {
+      key: "optimized",
+      label: "DP Verified",
+      desc: "Knapsack DP independently confirms the optimal path",
+      color: "#1D9E75",
+      lightBg: "#E1F5EE",
+      icon: "ti-cpu",
+      badge: "Math proven",
+      badgeBg: "#FAEEDA",
+      badgeColor: "#854F0B"
+    },
   ] : [];
 
   return (
@@ -242,12 +272,16 @@ export default function Debts() {
 
             {/* Strategy cards */}
             <div className="grid grid-cols-3 gap-3">
-              {strategies.map(({ key, label, desc, color, lightBg, icon }) => (
-                <div key={key} className="rounded-xl p-4 border-l-4"
+              {strategies.map(({ key, label, desc, color, lightBg, icon, badge, badgeBg, badgeColor }) => (
+                < div key={key} className="rounded-xl p-4 border-l-4"
                   style={{ background: lightBg, borderLeftColor: color }}>
                   <div className="flex items-center gap-2 mb-2">
                     <i className={`ti ${icon}`} style={{ fontSize: 14, color }} />
                     <p className="text-xs font-medium" style={{ color: "#111827" }}>{label}</p>
+                    <span className="text-xs px-2 py-0.5 rounded-full font-medium ml-auto"
+                      style={{ background: s.badgeBg, color: s.badgeColor, fontSize: 9.5 }}>
+                      {s.badge}
+                    </span>
                   </div>
                   <p className="text-xs mb-3" style={{ color: "#6B7280" }}>{desc}</p>
                   <p className="text-2xl font-medium mb-3" style={{ color }}>
@@ -268,15 +302,18 @@ export default function Debts() {
               ))}
             </div>
           </div>
-        )}
+        )
+        }
 
-        {debts.length === 0 && (
-          <div className="text-center py-10">
-            <i className="ti ti-credit-card-off" style={{ fontSize: 32, color: "#D1D5DB" }} />
-            <p className="text-xs mt-2" style={{ color: "#9CA3AF" }}>Add debts above to use the optimizer</p>
-          </div>
-        )}
-      </Card>
-    </div>
+        {
+          debts.length === 0 && (
+            <div className="text-center py-10">
+              <i className="ti ti-credit-card-off" style={{ fontSize: 32, color: "#D1D5DB" }} />
+              <p className="text-xs mt-2" style={{ color: "#9CA3AF" }}>Add debts above to use the optimizer</p>
+            </div>
+          )
+        }
+      </Card >
+    </div >
   );
 }
